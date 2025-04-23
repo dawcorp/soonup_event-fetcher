@@ -76,3 +76,9 @@ Assicurati di avere configurato correttamente le variabili d'ambiente necessarie
 SOONUP_BACKOFFICE_API_BASE_URL
 SOONUP_BAKOFFICE_API_KEY
 OPENAI_API_KEY
+DEBUG_MODE
+
+
+## Debug
+
+Per abilitare il debugging nella cartella /logs ed in console impostare DEBUG_MODE=TRUE sul file .env

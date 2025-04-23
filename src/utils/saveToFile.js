@@ -3,6 +3,10 @@ import path from "path";
 import { logger } from "./logger.js";
 
 export function saveToFile(content) {
+  if (process.env.DEBUG_MODE !== "TRUE") {
+    return;
+  }
+
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const filePath = path.join(
     process.cwd(),
@@ -14,6 +18,10 @@ export function saveToFile(content) {
 }
 
 export function saveJsonResponseToFile(response) {
+  if (process.env.DEBUG_MODE !== "TRUE") {
+    return;
+  }
+
   const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
   const filePath = path.join(
     process.cwd(),
