@@ -1,9 +1,11 @@
 import OpenAI from "openai";
 import { config } from "./config.js";
-import { logger } from "./logger.js";
+import { logger } from "../../utils/logger.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 const openai = new OpenAI({
-  apiKey: config.openaiApiKey,
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
 export async function callChatGPT() {

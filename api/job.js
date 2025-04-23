@@ -1,10 +1,10 @@
-import { callChatGPT } from "../src/callChatGPT.js";
-import { saveJsonResponseToFile, saveToFile } from "../src/saveToFile.js";
-import { logger } from "../src/logger.js";
+import { callChatGPT } from "../src/external-sources/chatGpt/callChatGPT.js";
+import { saveJsonResponseToFile, saveToFile } from "../src/utils/saveToFile.js";
+import { logger } from "../src/utils/logger.js";
 import express from "express";
-import { extractOutputJson } from "../src/utils.js";
-import { createEvent } from "../src/apiCall.js";
-import { encodeEvents } from "../src/eventEncoder.js";
+import { extractOutputJson } from "../src/utils/utils.js";
+import { createEvent } from "../src/backofficeApiCall.js";
+import { encodeEvents } from "../src/utils/eventEncoder.js";
 
 const app = express();
 const port = 3001;
