@@ -26,3 +26,13 @@ export const createEvent = async (eventData) => {
   });
   return response.json();
 };
+
+export const deleteOldEvents = async () => {
+  const response = await fetch(`${SOONUP_BACKOFFICE_API_BASE_URL}/events`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${SOONUP_BAKOFFICE_API_KEY}`,
+    },
+  });
+  return response.json();
+};

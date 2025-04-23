@@ -3,7 +3,11 @@ import { saveJsonResponseToFile, saveToFile } from "../src/utils/saveToFile.js";
 import { logger } from "../src/utils/logger.js";
 import express from "express";
 import { extractOutputJson } from "../src/utils/utils.js";
-import { createEvent, getAllEvents } from "../src/backofficeApiCall.js";
+import {
+  createEvent,
+  deleteOldEvents,
+  getAllEvents,
+} from "../src/backofficeApiCall.js";
 import { encodeEvents } from "../src/utils/eventEncoder.js";
 
 const app = express();
@@ -12,6 +16,10 @@ const port = 3001;
 app.get("/job", async (req, res) => {
   logger.info("Job avviato.");
   try {
+    const deletedEvents = await deleteOldEvents();
+    logger.info("Eventi eliminati");
+    logger.info(deletedEvents);
+
     const events = await getAllEvents();
     logger.info("Estrazione eventi da backoffice completata");
 
