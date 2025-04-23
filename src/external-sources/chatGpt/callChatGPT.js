@@ -8,9 +8,9 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-export async function callChatGPT() {
+export async function callChatGPT(eventsJson) {
   try {
-    const completion = await openai.responses.create({
+    const completionRequest = {
       model: config.model,
       input: [
         {
@@ -27,7 +27,7 @@ export async function callChatGPT() {
           content: [
             {
               type: "input_text",
-              text: config.prompt,
+              text: config.getPrompt("Varese", eventsJson),
             },
           ],
         },
@@ -53,7 +53,9 @@ export async function callChatGPT() {
       max_output_tokens: 8000,
       top_p: 1,
       store: true,
-    });
+    };
+
+    const completion = await openai.responses.create(completionRequest);
 
     logger.info("Risposta ricevuta da OpenAI");
     return completion;

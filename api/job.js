@@ -3,7 +3,7 @@ import { saveJsonResponseToFile, saveToFile } from "../src/utils/saveToFile.js";
 import { logger } from "../src/utils/logger.js";
 import express from "express";
 import { extractOutputJson } from "../src/utils/utils.js";
-import { createEvent } from "../src/backofficeApiCall.js";
+import { createEvent, getAllEvents } from "../src/backofficeApiCall.js";
 import { encodeEvents } from "../src/utils/eventEncoder.js";
 
 const app = express();
@@ -12,7 +12,10 @@ const port = 3001;
 app.get("/job", async (req, res) => {
   logger.info("Job avviato.");
   try {
-    const response = await callChatGPT();
+    const events = await getAllEvents();
+    logger.info("Estrazione eventi da backoffice completata");
+
+    const response = await callChatGPT(JSON.stringify(events));
     logger.info("Risposta OpenAI eseguita");
 
     saveToFile(response);
