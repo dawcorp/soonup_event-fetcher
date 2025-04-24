@@ -1,38 +1,57 @@
+import axios from "axios";
 import dotenv from "dotenv";
+import { logger } from "./utils/logger.js";
 dotenv.config();
 
-const SOONUP_BACKOFFICE_API_BASE_URL =
-  process.env.SOONUP_BACKOFFICE_API_BASE_URL;
-const SOONUP_BAKOFFICE_API_KEY = process.env.SOONUP_BAKOFFICE_API_KEY;
+const api = axios.create({
+  baseURL: process.env.SOONUP_BACKOFFICE_API_BASE_URL,
+  headers: {
+    Authorization: `Bearer ${process.env.SOONUP_BAKOFFICE_API_KEY}`,
+  },
+});
 
 export const getAllEvents = async () => {
-  const response = await fetch(`${SOONUP_BACKOFFICE_API_BASE_URL}/events`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${SOONUP_BAKOFFICE_API_KEY}`,
-    },
-  });
-  return response.json();
+  try {
+    const { data } = await api.get("/events");
+    return data;
+  } catch (error) {
+    logger.error("Errore in getAllEvents:", {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+    });
+    throw error;
+  }
 };
 
 export const createEvent = async (eventData) => {
-  const response = await fetch(`${SOONUP_BACKOFFICE_API_BASE_URL}/events`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${SOONUP_BAKOFFICE_API_KEY}`,
-    },
-    body: JSON.stringify(eventData),
-  });
-  return response.json();
+  try {
+    const { data } = await api.post("/events", eventData);
+    return data;
+  } catch (error) {
+    logger.error("Errore in createEvent:", {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+      eventData: eventData,
+    });
+    throw error;
+  }
 };
 
 export const deleteOldEvents = async () => {
-  const response = await fetch(`${SOONUP_BACKOFFICE_API_BASE_URL}/events`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${SOONUP_BAKOFFICE_API_KEY}`,
-    },
-  });
-  return response.json();
+  try {
+    const { data } = await api.delete("/events");
+    return data;
+  } catch (error) {
+    logger.error("Errore in deleteOldEvents:", {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message,
+    });
+    throw error;
+  }
 };
